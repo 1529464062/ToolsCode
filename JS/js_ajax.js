@@ -33,7 +33,9 @@ function ajax(submitMethods,URL,Data,SuccessCallBack,errorCallBack,loadMethods){
 	}
 	if(xmlhttp!=null){		
 		xmlhttp.open(submitMethods,URL,Methods);
-		xmlhttp.setRequestHeader("CONTENT-TYPE", "application/x-www-form-urlencoded");		
+		if(submitMethods=="post"){
+			xmlhttp.setRequestHeader("CONTENT-TYPE", "application/x-www-form-urlencoded");		
+		}		
 		xmlhttp.onreadystatechange=function(){
 			if(xmlhttp.readyState==4&&xmlhttp.status==200){
 				SuccessCallBack(xmlhttp.responseText);
