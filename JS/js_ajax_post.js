@@ -1,16 +1,17 @@
-﻿//ajax使用post方式传送数据
+﻿//ajax传送数据
+//submitMethods:提交数据的方式，get或者post
 //URL:接收的路径
-//Data:传送的数据
+//Data:传送的数据(若是get时为null)
 //SuccessCallBack:成功时的回调函数
 //errorCallBack:失败时的回调函数
-//Methods:是异步或者同步 true为异步，false为同步
+//Methods:是异步加载或者同步加载 true为异步，false为同步
 /*
 调用实例：
 function button2_click() {
     var ss ="aa="+ document.getElementById("text1").value;
     var URL = "Default.ashx";
     
-    ajaxPost(URL, ss, success, error,true);
+    ajaxPost("post",URL, ss, success, error,true);
 }
 function success(data) {
     console.log(data);
@@ -19,7 +20,7 @@ function error() {
     console.log("执行出错");
 };
 */
-function ajaxPost(URL,Data,SuccessCallBack,errorCallBack,Methods){
+function ajax(submitMethods,URL,Data,SuccessCallBack,errorCallBack,loadMethods){
 	var xmlhttp;//创建异步对象
 	if(XMLHttpRequest){
 		xmlhttp=new XMLHttpRequest();
@@ -31,7 +32,7 @@ function ajaxPost(URL,Data,SuccessCallBack,errorCallBack,Methods){
 		}
 	}
 	if(xmlhttp!=null){		
-		xmlhttp.open("post",URL,Methods);
+		xmlhttp.open(submitMethods,URL,Methods);
 		xmlhttp.setRequestHeader("CONTENT-TYPE", "application/x-www-form-urlencoded");		
 		xmlhttp.onreadystatechange=function(){
 			if(xmlhttp.readyState==4&&xmlhttp.status==200){
@@ -40,6 +41,11 @@ function ajaxPost(URL,Data,SuccessCallBack,errorCallBack,Methods){
 				errorCallBack();
 			}
 		}
-		xmlhttp.send(Data);
+		if(submitMethods=="post"){
+			xmlhttp.send(Data);
+		}else{
+			xmlhttp.send();
+		}
+		
 	}
 }
